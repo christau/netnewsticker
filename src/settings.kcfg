@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+<kcfg>
+    <kcfgfile name="netnewstickerrc"/>
+    <include>kglobalsettings.h</include>
+    <group name="Visual">
+        <entry name="Font" type="Font">
+            <label>Font used for the scrolling text</label>
+            <default code="true">KGlobalSettings::fixedFont()</default>
+        </entry>
+        <entry name="Color" type="Color">
+            <label>The color used for the scrolling text</label>
+            <default>white</default>
+        </entry>
+        <entry name="HideReadArticles" type="Bool">
+            <label>Whether news which have been read should be shown in the scroller again</label>
+            <default>true</default>
+        </entry>
+        <entry name="UIStyle" type="Bool">
+            <label>Paints a background like the knewsticker in kde 3.x did.</label>
+            <default>false</default>
+        </entry>
+        <entry name="ScrollHorizontal" type="Bool">
+            <label>Determines if the scrolling is done horizontally or vertically</label>
+            <default>true</default>
+        </entry>
+        <entry name="ScrollingSpeed" type="UInt" min="1" max="100">
+            <label>How many times per second the scrolling text should be redrawn.</label>
+            <default>25</default>
+        </entry>
+        <entry name="MessageDelay" type="Double" min="0" max="100">
+            <label>How many seconds the message is displayed when horizontal scrolling is enabled</label>
+            <default>4</default>
+        </entry>
+        <entry name="ScrollingDistance" type="UInt" min="1" max="100">
+            <label>How many pixels the scrolling text moves per redraw</label>
+            <default>1</default>
+        </entry>
+    </group>
+    <group name="FeedLoading">
+        <entry name="FeedUrls" type="StringList">
+            <label>List of URLs to RSS feeds which should be shown</label>
+            <default>http://www.kde.org/dotkdeorg.rdf</default>
+        </entry>
+        <entry name="UpdateInterval" type="UInt">
+            <label>The update interval (in minutes) defining how often the feeds are updated</label>
+            <default>30</default>
+        </entry>
+        <entry name="MaxNewsItems" type="UInt">
+            <label>Determines how much items are collected per feed. 0 means unlimited</label>
+            <default>30</default>
+        </entry>
+    </group>
+    <group name="FilterProperties">
+        <entry name="FilterEntries" type="StringList">
+            <label>List of rules to filter news items</label>
+            <default></default>
+        </entry>
+    </group>
+</kcfg>
