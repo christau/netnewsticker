@@ -44,8 +44,11 @@ public:
 
 public slots:
 	void feedsUpdated();
+	void feedLoaded(const QUrl &url);
+
 
 protected:
+	virtual void dropEvent ( QGraphicsSceneDragDropEvent * event );
 	virtual void wheelEvent(QGraphicsSceneWheelEvent *event);
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
 	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

@@ -233,7 +233,10 @@ void FeedSettingsWidget::feedLoaded(const QUrl &url)
 	{
 		return;
 	}
-	Settings::feedUrls().append(url.toString());
+	QStringList urls = Settings::feedUrls();
+	urls.append(url.toString());
+	Settings::setFeedUrls(urls);
+
 	disconnect(NewsFeedManager::self(), SIGNAL( feedLoaded( const QUrl & ) ), this, SLOT( feedLoaded( const QUrl & ) ));
 
 	delete m_downloadMessageBox;

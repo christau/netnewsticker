@@ -67,6 +67,7 @@ static QString unescape(const QString &s)
 NetNewsTicker::NetNewsTicker(QObject *parent, const QVariantList &args) :
 	Plasma::Applet(parent, args)
 {
+	this->setAcceptDrops(true);
 	m_pTimer = 0;
 	setAspectRatioMode(Plasma::IgnoreAspectRatio);
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
@@ -129,6 +130,28 @@ QList<QAction*> NetNewsTicker::contextualActions()
 	list.append(m_pUpdateFeedsAction);
 	return list;
 }
+void NetNewsTicker::dropEvent ( QGraphicsSceneDragDropEvent * event )
+{
+	QList<QUrl> list = event->mimeData()->urls();
+	if(list.count() > 0)
+	{
+		connect(NewsFeedManager::self(), SIGNAL( feedLoaded( const QUrl & ) ), this, SLOT( feedLoaded( const QUrl & ) ));
+		NewsFeedManager::self()->updateFeed(list.at(0));
+	}
+}
+
+void NetNewsTicker::feedLoaded(const QUrl &url)
+{
+	qDebug() << QString("Adding:") << url;
+	QStringList urls = Settings::feedUrls();
+	urls.append(url.toString());
+	Settings::setFeedUrls(urls);
+	qDebug() << "Urls:" << Settings::feedUrls();
+	disconnect(NewsFeedManager::self(), SIGNAL( feedLoaded( const QUrl & ) ), this, SLOT( feedLoaded( const QUrl & ) ));
+	Settings::self()->writeConfig();
+	updateFeeds();
+}
+
 
 void NetNewsTicker::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
 {
@@ -460,6 +483,7 @@ void NetNewsTicker::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 void NetNewsTicker::updateFeeds()
 {
 	m_feedsLoaded = false;
+	NewsFeedManager::self()->setSubscriptions(Settings::feedUrls());
 	NewsFeedManager::self()->update();
 }
 
