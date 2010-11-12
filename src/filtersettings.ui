@@ -161,6 +161,19 @@
         <item row="0" column="4">
          <widget class="QLineEdit" name="leFilterExpression"/>
         </item>
+        <item row="1" column="2" colspan="3">
+         <widget class="QComboBox" name="cboNewsSources"/>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>in</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
@@ -179,6 +192,11 @@
        <column>
         <property name="text">
          <string>Expression</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Affects</string>
         </property>
        </column>
       </widget>

@@ -34,7 +34,6 @@ public:
 
 	ArticleFilter(const QString & = I18N_NOOP(QString::fromLatin1("Show")), const QString & =
 			I18N_NOOP(QString::fromLatin1("contain")), const QString & = QString::null, bool = true);
-
 	QString action() const
 	{
 		return m_action;
@@ -48,6 +47,7 @@ public:
 	{
 		return m_condition;
 	}
+
 	void setCondition(const QString &condition)
 	{
 		m_condition = condition;
@@ -57,9 +57,20 @@ public:
 	{
 		return m_expression;
 	}
+
 	void setExpression(const QString &expression)
 	{
 		m_expression = expression;
+	}
+
+	void setFeedUrl(const QString &url)
+	{
+		m_url = url;
+	}
+
+	QString feedUrl() const
+	{
+		return m_url;
 	}
 
 	bool enabled() const
@@ -83,6 +94,7 @@ public:
 	bool matches(const QString&) const;
 
 private:
+	QString m_url;
 	QString m_action;
 	QString m_condition;
 	QString m_expression;
@@ -109,6 +121,7 @@ protected slots:
 	void slotFilterActionChanged(const QString &);
 	void slotFilterConditionChanged(const QString &);
 	void slotFilterExpressionChanged(const QString &);
+	void slotFilterNewsSourceChanged(const QString &);
 };
 
 #endif // !defined(FILTERSETTINGSWIDGET_H)

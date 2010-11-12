@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flickr On Plasma\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-05 21:06+0100\n"
-"PO-Revision-Date: 2010-11-05 21:07+0100\n"
+"POT-Creation-Date: 2010-11-12 21:11+0100\n"
+"PO-Revision-Date: 2010-11-12 21:13+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -34,60 +34,75 @@ msgstr "Bitte warten ..."
 msgid "Please wait while the newsfeed is downloaded..."
 msgstr "Bitte warten während der Newsfeed geladen wird ..."
 
-#. i18n: file: filtersettings.ui:203
+#. i18n: file: filtersettings.ui:136
 #. i18n: ectx: property (text), item, widget (QComboBox, comboFilterCondition)
-#: filtersettingswidget.cpp:42
-#: rc.cpp:104
+#: filtersettingswidget.cpp:37
+#: rc.cpp:89
 msgid "contain"
 msgstr "enthält"
 
-#. i18n: file: filtersettings.ui:208
+#. i18n: file: filtersettings.ui:141
 #. i18n: ectx: property (text), item, widget (QComboBox, comboFilterCondition)
-#: filtersettingswidget.cpp:44
-#: rc.cpp:107
+#: filtersettingswidget.cpp:39
+#: rc.cpp:92
 msgid "do not contain"
 msgstr "enthält nicht"
 
-#. i18n: file: filtersettings.ui:213
+#. i18n: file: filtersettings.ui:146
 #. i18n: ectx: property (text), item, widget (QComboBox, comboFilterCondition)
-#: filtersettingswidget.cpp:46
-#: rc.cpp:110
+#: filtersettingswidget.cpp:41
+#: rc.cpp:95
 msgid "equal"
 msgstr "gleich"
 
-#. i18n: file: filtersettings.ui:218
+#. i18n: file: filtersettings.ui:151
 #. i18n: ectx: property (text), item, widget (QComboBox, comboFilterCondition)
-#: filtersettingswidget.cpp:48
-#: rc.cpp:113
+#: filtersettingswidget.cpp:43
+#: rc.cpp:98
 msgid "do not equal"
 msgstr "ungleich"
 
 #. i18n: file: filtersettings.ui:106
 #. i18n: ectx: property (text), item, widget (QComboBox, comboFilterAction)
-#: filtersettingswidget.cpp:55
+#: filtersettingswidget.cpp:51
 #: rc.cpp:72
 msgid "Show"
 msgstr "Zeige"
 
-#: netnewsticker.cpp:89
+#: filtersettingswidget.cpp:70
+#: netnewsticker.cpp:675
+msgid "All News Sources"
+msgstr "Alle Nachrichtenquellen"
+
+#: netnewsticker.cpp:90
 msgid "Update Feeds"
 msgstr "Feeds Aktualisieren"
 
-#: netnewsticker.cpp:250
+#: netnewsticker.cpp:268
 msgid "Loading Feeds..."
 msgstr "Lade Feeds..."
 
-#: settingsdialog.cpp:40
+#. i18n: file: filtersettings.ui:101
+#. i18n: ectx: property (text), item, widget (QComboBox, comboFilterAction)
+#: netnewsticker.cpp:687
+#: rc.cpp:69
+msgid "Hide"
+msgstr "Verstecke"
+
+#: settingsdialog.cpp:36
 msgid "Appearance"
 msgstr "Darstellung"
 
-#: settingsdialog.cpp:44
+#: settingsdialog.cpp:39
 msgid "Feed Access"
 msgstr "Feeds"
 
-#: settingsdialog.cpp:52
-msgid "Filter"
-msgstr ""
+#. i18n: file: filtersettings.ui:88
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: settingsdialog.cpp:42
+#: rc.cpp:60
+msgid "Filter Properties"
+msgstr "Filtereigenschaften"
 
 #. i18n: file: feeddirectory.ui:23
 #. i18n: ectx: property (windowTitle), widget (QDialog, FeedDirectory)
@@ -203,12 +218,6 @@ msgstr ""
 msgid "R&emove"
 msgstr ""
 
-#. i18n: file: filtersettings.ui:88
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: rc.cpp:60
-msgid "Filter Properties"
-msgstr ""
-
 #. i18n: file: filtersettings.ui:94
 #. i18n: ectx: property (toolTip), widget (QComboBox, comboFilterAction)
 #: rc.cpp:63
@@ -221,57 +230,21 @@ msgstr ""
 msgid "Here you can define what should happen if this filter matches (e.g. whether the matching articles should be shown or hidden)."
 msgstr ""
 
-#. i18n: file: filtersettings.ui:101
-#. i18n: ectx: property (text), item, widget (QComboBox, comboFilterAction)
-#: rc.cpp:69
-msgid "Hide"
-msgstr "Verstecke"
-
 #. i18n: file: filtersettings.ui:114
 #. i18n: ectx: property (text), widget (QLabel, lArticles)
 #: rc.cpp:75
-msgid "articles from"
+msgid "articles whose headlines"
 msgstr ""
 
 #. i18n: file: filtersettings.ui:124
-#. i18n: ectx: property (toolTip), widget (QComboBox, comboFilterNewsSource)
-#: rc.cpp:78
-msgid "Affected news sources"
-msgstr ""
-
-#. i18n: file: filtersettings.ui:127
-#. i18n: ectx: property (whatsThis), widget (QComboBox, comboFilterNewsSource)
-#: rc.cpp:81
-msgid "Here you can specify which news sources (or all of them) are affected. Note that only the news sources which have been activated on the <i>News sources</i> tab are shown in this combo box."
-msgstr ""
-
-#. i18n: file: filtersettings.ui:131
-#. i18n: ectx: property (text), item, widget (QComboBox, comboFilterNewsSource)
-#: rc.cpp:84
-msgid "all news sources"
-msgstr ""
-
-#. i18n: file: filtersettings.ui:139
-#. i18n: ectx: property (text), widget (QLabel, lwhose)
-#: rc.cpp:87
-msgid "whose"
-msgstr ""
-
-#. i18n: file: filtersettings.ui:181
-#. i18n: ectx: property (text), widget (QLabel, lHeadlines)
-#: rc.cpp:90
-msgid "headlines"
-msgstr ""
-
-#. i18n: file: filtersettings.ui:191
 #. i18n: ectx: property (toolTip), widget (QComboBox, comboFilterCondition)
-#: rc.cpp:93
+#: rc.cpp:78
 msgid "Condition for this filter"
 msgstr ""
 
-#. i18n: file: filtersettings.ui:199
+#. i18n: file: filtersettings.ui:132
 #. i18n: ectx: property (whatsThis), widget (QComboBox, comboFilterCondition)
-#: rc.cpp:96
+#: rc.cpp:81
 msgid ""
 "This combo box lets you specify the condition under which the keyword/expression you entered in the input field at the right will match. You can select one of the following values:<ul>\n"
 "<li>contain - the filter matches if the headline contains the keyword.</li>\n"
@@ -281,190 +254,183 @@ msgid ""
 "<li>matches - the filter matches if the expression matches the headline. The expression you typed at the right will be considered a regular expression in this mode.</li>"
 msgstr ""
 
-#. i18n: file: filtersettings.ui:223
+#. i18n: file: filtersettings.ui:156
 #. i18n: ectx: property (text), item, widget (QComboBox, comboFilterCondition)
-#: rc.cpp:116
+#: rc.cpp:101
 msgid "match"
 msgstr ""
 
-#. i18n: file: filtersettings.ui:238
-#. i18n: ectx: property (text), widget (QTreeWidget, lvFilters)
-#: rc.cpp:119
-msgid "1"
+#. i18n: file: filtersettings.ui:170
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: rc.cpp:104
+msgid "in"
 msgstr ""
 
-#. i18n: file: filtersettings.ui:243
-#. i18n: ectx: property (text), widget (QTreeWidget, lvFilters)
-#: rc.cpp:122
-msgid "2"
-msgstr ""
+#. i18n: file: filtersettings.ui:184
+#. i18n: ectx: property (text), widget (QTreeWidget, filterEntries)
+#: rc.cpp:107
+msgid "Action"
+msgstr "Aktion"
 
-#. i18n: file: filtersettings.ui:248
-#. i18n: ectx: property (text), widget (QTreeWidget, lvFilters)
-#: rc.cpp:125
-msgid "3"
-msgstr ""
+#. i18n: file: filtersettings.ui:189
+#. i18n: ectx: property (text), widget (QTreeWidget, filterEntries)
+#: rc.cpp:110
+msgid "Condition"
+msgstr "Bedingung"
 
-#. i18n: file: filtersettings.ui:253
-#. i18n: ectx: property (text), widget (QTreeWidget, lvFilters)
-#: rc.cpp:128
-msgid "4"
-msgstr ""
+#. i18n: file: filtersettings.ui:194
+#. i18n: ectx: property (text), widget (QTreeWidget, filterEntries)
+#: rc.cpp:113
+msgid "Expression"
+msgstr "Ausdruck"
 
-#. i18n: file: filtersettings.ui:258
-#. i18n: ectx: property (text), widget (QTreeWidget, lvFilters)
-#: rc.cpp:131
-msgid "5"
-msgstr ""
-
-#. i18n: file: filtersettings.ui:263
-#. i18n: ectx: property (text), widget (QTreeWidget, lvFilters)
-#: rc.cpp:134
-msgid "6"
-msgstr ""
+#. i18n: file: filtersettings.ui:199
+#. i18n: ectx: property (text), widget (QTreeWidget, filterEntries)
+#: rc.cpp:116
+msgid "Affects"
+msgstr "Betrifft"
 
 #. i18n: file: settings.kcfg:8
 #. i18n: ectx: label, entry (Font), group (Visual)
-#: rc.cpp:137
+#: rc.cpp:119
 msgid "Font used for the scrolling text"
 msgstr ""
 
 #. i18n: file: settings.kcfg:12
 #. i18n: ectx: label, entry (Color), group (Visual)
-#: rc.cpp:140
+#: rc.cpp:122
 msgid "The color used for the scrolling text"
 msgstr ""
 
 #. i18n: file: settings.kcfg:16
 #. i18n: ectx: label, entry (HideReadArticles), group (Visual)
-#: rc.cpp:143
+#: rc.cpp:125
 msgid "Whether news which have been read should be shown in the scroller again"
 msgstr ""
 
 #. i18n: file: settings.kcfg:20
 #. i18n: ectx: label, entry (UIStyle), group (Visual)
-#: rc.cpp:146
+#: rc.cpp:128
 msgid "Paints a background like the knewsticker in kde 3.x did."
 msgstr ""
 
 #. i18n: file: settings.kcfg:24
 #. i18n: ectx: label, entry (ScrollHorizontal), group (Visual)
-#: rc.cpp:149
+#: rc.cpp:131
 msgid "Determines if the scrolling is done horizontally or vertically"
 msgstr ""
 
 #. i18n: file: settings.kcfg:28
 #. i18n: ectx: label, entry (ScrollingSpeed), group (Visual)
-#: rc.cpp:152
+#: rc.cpp:134
 msgid "How many times per second the scrolling text should be redrawn."
 msgstr ""
 
 #. i18n: file: settings.kcfg:32
 #. i18n: ectx: label, entry (MessageDelay), group (Visual)
-#: rc.cpp:155
+#: rc.cpp:137
 msgid "How many seconds the message is displayed when horizontal scrolling is enabled"
 msgstr ""
 
 #. i18n: file: settings.kcfg:36
 #. i18n: ectx: label, entry (ScrollingDistance), group (Visual)
-#: rc.cpp:158
+#: rc.cpp:140
 msgid "How many pixels the scrolling text moves per redraw"
 msgstr ""
 
 #. i18n: file: settings.kcfg:42
 #. i18n: ectx: label, entry (FeedUrls), group (FeedLoading)
-#: rc.cpp:161
+#: rc.cpp:143
 msgid "List of URLs to RSS feeds which should be shown"
 msgstr ""
 
 #. i18n: file: settings.kcfg:46
 #. i18n: ectx: label, entry (UpdateInterval), group (FeedLoading)
-#: rc.cpp:164
+#: rc.cpp:146
 msgid "The update interval (in minutes) defining how often the feeds are updated"
 msgstr "Bestimmt, in welchen Abständen die Feeds aktualisiert werden"
 
 #. i18n: file: settings.kcfg:50
 #. i18n: ectx: label, entry (MaxNewsItems), group (FeedLoading)
-#: rc.cpp:167
+#: rc.cpp:149
 msgid "Determines how much items are collected per feed. 0 means unlimited"
 msgstr "Die maximale Anzahl von Einträgen, die pro Feed im NetNewsTicker angezeigt werden"
 
+#. i18n: file: settings.kcfg:56
+#. i18n: ectx: label, entry (FilterEntries), group (FilterProperties)
+#: rc.cpp:152
+msgid "List of rules to filter news items"
+msgstr ""
+
 #. i18n: file: visualsettings.ui:36
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: rc.cpp:170
+#: rc.cpp:155
 msgctxt "color of the scrolling text"
 msgid "Color:"
 msgstr "Farbe:"
 
 #. i18n: file: visualsettings.ui:47
 #. i18n: ectx: property (text), item, widget (KColorCombo, kcfg_Color)
-#: rc.cpp:173
+#: rc.cpp:158
 msgid "Custom..."
 msgstr "Auswählen..."
 
 #. i18n: file: visualsettings.ui:61
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: rc.cpp:176
+#: rc.cpp:161
 msgid "Font:"
 msgstr "Schriftart:"
 
 #. i18n: file: visualsettings.ui:71
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UIStyle)
-#: rc.cpp:179
+#: rc.cpp:164
 msgid "KDE 3.5 Style"
 msgstr "KDE 3.5 Stil"
 
 #. i18n: file: visualsettings.ui:84
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: rc.cpp:182
+#: rc.cpp:167
 msgid "Redraw frequency"
 msgstr "Aktualisierungsrate"
 
 #. i18n: file: visualsettings.ui:97
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ScrollHorizontal)
-#: rc.cpp:185
+#: rc.cpp:170
 msgid "Scroll Horizontal"
 msgstr "Horizontal Scrollen"
 
-#. i18n: file: visualsettings.ui:104
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: rc.cpp:188
-msgid "Delay between messages"
-msgstr "Pause bei vertikalem Scrolling"
-
-#. i18n: file: visualsettings.ui:121
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: rc.cpp:191
-msgid "Seconds"
-msgstr "Sekunden"
-
-#. i18n: file: visualsettings.ui:131
+#. i18n: file: visualsettings.ui:107
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: rc.cpp:194
+#: rc.cpp:173
 msgid "Updates / Second"
 msgstr "Aktualisierungen/Sekunde"
 
-#. i18n: file: visualsettings.ui:144
+#. i18n: file: visualsettings.ui:120
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: rc.cpp:197
+#: rc.cpp:176
 msgid "Distance per redraw"
 msgstr "Schrittweite pro Akualisierung"
 
-#. i18n: file: visualsettings.ui:154
+#. i18n: file: visualsettings.ui:130
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: rc.cpp:200
+#: rc.cpp:179
 msgid "Pixels"
 msgstr "Pixel"
 
-#: rc.cpp:201
+#: rc.cpp:180
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: rc.cpp:202
+#: rc.cpp:181
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
+
+#~ msgid "Delay between messages"
+#~ msgstr "Pause bei vertikalem Scrolling"
+#~ msgid "Seconds"
+#~ msgstr "Sekunden"
 
 #, fuzzy
 #~ msgid "&Scrolling speed:"

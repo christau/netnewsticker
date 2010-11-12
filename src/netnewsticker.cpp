@@ -142,11 +142,9 @@ void NetNewsTicker::dropEvent ( QGraphicsSceneDragDropEvent * event )
 
 void NetNewsTicker::feedLoaded(const QUrl &url)
 {
-	qDebug() << QString("Adding:") << url;
 	QStringList urls = Settings::feedUrls();
 	urls.append(url.toString());
 	Settings::setFeedUrls(urls);
-	qDebug() << "Urls:" << Settings::feedUrls();
 	disconnect(NewsFeedManager::self(), SIGNAL( feedLoaded( const QUrl & ) ), this, SLOT( feedLoaded( const QUrl & ) ));
 	Settings::self()->writeConfig();
 	updateFeeds();
@@ -598,18 +596,18 @@ void NetNewsTicker::feedsUpdated()
 	for (int i = 0; i < filters.count(); ++i)
 	{
 		QStringList filter = filters[i].split('|');
-		if (filter.count() != 4)
+		if (filter.count() != 5)
 		{
 			kDebug()
 				<< QString("not reading filter entry:") << filters.at(i);
 			continue;
 		}
 		ArticleFilter fd;
-		fd.setEnabled((filter.at(0) == "1") ? true : false);
+		fd.setEnabled((filter.at(0) == "0") ? false : true);
 		fd.setAction(filter.at(1));
 		fd.setCondition(filter.at(2));
 		fd.setExpression(filter.at(3));
-		fd.setEnabled(true);
+		fd.setFeedUrl(filter.at(4));
 		artFilters.append(fd);
 	}
 	m_items.clear();
@@ -663,20 +661,28 @@ void NetNewsTicker::feedsUpdated()
 			int maxItems = Settings::maxNewsItems();
 			foreach ( Syndication::ItemPtr item, feed->items())
 				{
+					int curFilter = -1;
 					bool matches = false;
 					if (artFilters.count() > 0)
 					{
 						for (int i = 0; i < artFilters.count(); ++i)
 						{
+							if(!artFilters[i].enabled())
+								continue;
+							if(!artFilters[i].feedUrl().startsWith(feed->link())
+									&& artFilters[i].feedUrl() != i18n("All News Sources"))
+								continue;
 							if (artFilters[i].matches(QString(item->title())))
 							{
 								matches = true;
+								curFilter = i;
 								break;
 							}
 						}
 
 					}
-					if (matches) //the filter matched, don't add this item
+					if (matches && curFilter != -1)
+						if(artFilters[curFilter].action() == i18n("Hide")) //the filter matched, don't add this item
 						continue;
 					++itemCnt;
 					if (maxItems != 0 && itemCnt > maxItems)

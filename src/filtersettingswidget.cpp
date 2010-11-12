@@ -65,12 +65,21 @@ FilterSettingsWidget::FilterSettingsWidget(QWidget *parent) :
 	connect(ui.leFilterExpression, SIGNAL(textChanged(const QString &)), SLOT(slotFilterExpressionChanged(const QString &)));
 	connect(ui.bAddFilter, SIGNAL(clicked()), SLOT(slotAddFilter()));
 	connect(ui.bRemoveFilter, SIGNAL(clicked()), SLOT(slotRemoveFilter()));
+	connect(ui.cboNewsSources, SIGNAL(activated(const QString &)), SLOT(slotFilterNewsSourceChanged(const QString &)));
+
+	ui.cboNewsSources->addItem(i18n("All News Sources"));
+	QStringList feeds = Settings::feedUrls();
+	for (int i = 0; i < feeds.count(); ++i)
+	{
+		ui.cboNewsSources->addItem(feeds[i]);
+	}
+
 
 	QStringList list = Settings::filterEntries();
 	for (int i = 0; i < list.count(); ++i)
 	{
 		QStringList filter = list[i].split('|');
-		if(filter.count() != 4)
+		if(filter.count() != 5)
 		{
 //			printf("not reading filter entry:%s\n", list[i]);
 			continue;
@@ -80,7 +89,7 @@ FilterSettingsWidget::FilterSettingsWidget(QWidget *parent) :
 		fd.setAction(filter.at(1));
 		fd.setCondition(filter.at(2));
 		fd.setExpression(filter.at(3));
-		fd.setEnabled(true);
+		fd.setFeedUrl(filter.at(4));
 		addFilter(fd);
 
 	}
@@ -92,11 +101,9 @@ void FilterSettingsWidget::addFilter(const ArticleFilter &fd)
 	item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 	item->setCheckState(0, fd.enabled() ? Qt::Checked : Qt::Unchecked);
 	item->setText(0, fd.action());
-//	item->setText(1, ui.lArticles->text());
-//	item->setText(2, fd.newsSource());
-//	item->setText(3, ui.lHeadlines->text());
 	item->setText(1, fd.condition());
 	item->setText(2, fd.expression());
+	item->setText(3, fd.feedUrl());
 }
 
 void FilterSettingsWidget::slotAddFilter()
@@ -105,6 +112,7 @@ void FilterSettingsWidget::slotAddFilter()
 	fd.setAction(ui.comboFilterAction->currentText());
 	fd.setCondition(ui.comboFilterCondition->currentText());
 	fd.setExpression(ui.leFilterExpression->text());
+	fd.setFeedUrl(ui.cboNewsSources->currentText());
 	fd.setEnabled(true);
 	addFilter(fd);
 }
@@ -162,9 +170,26 @@ void FilterSettingsWidget::slotFilterSelectionChanged(QTreeWidgetItem *item, int
 		}
 
 	ui.leFilterExpression->setText(item->text(2));
+	for (int i = 0; i < ui.cboNewsSources->count(); i++)
+		if (ui.cboNewsSources->itemText(i) == item->text(3))
+		{
+			ui.cboNewsSources->setCurrentIndex(i);
+			break;
+		}
 
 	ui.bRemoveFilter->setEnabled(item);
 }
+
+void FilterSettingsWidget::slotFilterNewsSourceChanged(const QString &newsSource)
+{
+	QList<QTreeWidgetItem*> list = ui.filterEntries->selectedItems();
+
+	for (int i = 0; i < list.size(); ++i)
+	{
+		list.at(i)->setText(3, newsSource);
+	}
+}
+
 
 QStringList FilterSettingsWidget::filterEntries() const
 {
@@ -172,13 +197,15 @@ QStringList FilterSettingsWidget::filterEntries() const
 	for (int i = 0; i < ui.filterEntries->topLevelItemCount(); ++i)
 	{
 		QString filterString = "";
-		filterString += ui.filterEntries->topLevelItem(i)->checkState(0);
+		filterString += ui.filterEntries->topLevelItem(i)->checkState(0)?"1":"0";
 		filterString += "|";
 		filterString += ui.filterEntries->topLevelItem(i)->text(0);
 		filterString += "|";
 		filterString += ui.filterEntries->topLevelItem(i)->text(1);
 		filterString += "|";
 		filterString += ui.filterEntries->topLevelItem(i)->text(2);
+		filterString += "|";
+		filterString += ui.filterEntries->topLevelItem(i)->text(3);
 		filters.append(filterString);
 	}
 	return filters;
