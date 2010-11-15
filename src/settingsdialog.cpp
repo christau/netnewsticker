@@ -55,6 +55,7 @@ void SettingsDialog::applySettings() const
 {
 	Settings::setFilterEntries(m_filterSettingsWidget->filterEntries());
 	Settings::setFeedUrls(m_feedSettingsWidget->feedUrls());
+	m_filterSettingsWidget->initNewsSources();
 }
 
 QStringList SettingsDialog::feedUrls() const

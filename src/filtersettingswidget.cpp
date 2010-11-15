@@ -67,13 +67,7 @@ FilterSettingsWidget::FilterSettingsWidget(QWidget *parent) :
 	connect(ui.bRemoveFilter, SIGNAL(clicked()), SLOT(slotRemoveFilter()));
 	connect(ui.cboNewsSources, SIGNAL(activated(const QString &)), SLOT(slotFilterNewsSourceChanged(const QString &)));
 
-	ui.cboNewsSources->addItem(i18n("All News Sources"));
-	QStringList feeds = Settings::feedUrls();
-	for (int i = 0; i < feeds.count(); ++i)
-	{
-		ui.cboNewsSources->addItem(feeds[i]);
-	}
-
+	initNewsSources();
 
 	QStringList list = Settings::filterEntries();
 	for (int i = 0; i < list.count(); ++i)
@@ -94,6 +88,18 @@ FilterSettingsWidget::FilterSettingsWidget(QWidget *parent) :
 
 	}
 }
+
+void FilterSettingsWidget::initNewsSources()
+{
+	ui.cboNewsSources->clear();
+	ui.cboNewsSources->addItem(i18n("All News Sources"));
+	QStringList feeds = Settings::feedUrls();
+	for (int i = 0; i < feeds.count(); ++i)
+	{
+		ui.cboNewsSources->addItem(feeds[i]);
+	}
+}
+
 
 void FilterSettingsWidget::addFilter(const ArticleFilter &fd)
 {

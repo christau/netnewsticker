@@ -214,16 +214,6 @@ void FeedSettingsWidget::replyFinished(QNetworkReply* reply)
 
 		n = n.nextSibling();
 	}
-	//    QTreeWidgetItem *cities = new QTreeWidgetItem(fd->feedsTree);
-	//    cities->setText(0, tr("Cities"));
-
-	//    QTreeWidgetItem *osloItem = new QTreeWidgetItem(cities);
-	//    osloItem->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-	//    osloItem->setCheckState(0,Qt::Checked);
-	//    osloItem->setText(0, tr("Oslo"));
-	//    osloItem->setText(1, tr("Yes"));
-	//    line.sprintf("count: %d", reply->readBufferSize());
-	//    osloItem->setText(0, line);
 	reply->deleteLater();
 }
 

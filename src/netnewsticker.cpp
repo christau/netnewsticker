@@ -130,10 +130,10 @@ QList<QAction*> NetNewsTicker::contextualActions()
 	list.append(m_pUpdateFeedsAction);
 	return list;
 }
-void NetNewsTicker::dropEvent ( QGraphicsSceneDragDropEvent * event )
+void NetNewsTicker::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
 	QList<QUrl> list = event->mimeData()->urls();
-	if(list.count() > 0)
+	if (list.count() > 0)
 	{
 		connect(NewsFeedManager::self(), SIGNAL( feedLoaded( const QUrl & ) ), this, SLOT( feedLoaded( const QUrl & ) ));
 		NewsFeedManager::self()->updateFeed(list.at(0));
@@ -149,7 +149,6 @@ void NetNewsTicker::feedLoaded(const QUrl &url)
 	Settings::self()->writeConfig();
 	updateFeeds();
 }
-
 
 void NetNewsTicker::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
 {
@@ -248,7 +247,7 @@ void NetNewsTicker::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *
 
 				++itemIdx;
 				p->drawText(w, yPos, it->getTitle());
-//			printf("drawn:%d w_:%d w:%d\n", itemIdx,w, it->getWidth());
+				//			printf("drawn:%d w_:%d w:%d\n", itemIdx,w, it->getWidth());
 				w += it->getWidth();
 				p->setPen(m_colFont);
 				p->drawText(w, yPos, " +++ ");
@@ -306,8 +305,8 @@ void NetNewsTicker::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 		{
 			m_pMoveElapsedTimer->start();
 		}
-		if(m_mouseXOffs == 0)
-			m_mouseXOffs = m_horizontalScrolling?event->pos().x():event->pos().y();
+		if (m_mouseXOffs == 0)
+			m_mouseXOffs = m_horizontalScrolling ? event->pos().x() : event->pos().y();
 		if (m_horizontalScrolling)
 		{
 			m_mouseDelta -= m_mouseXOffs - event->pos().x();
@@ -661,35 +660,44 @@ void NetNewsTicker::feedsUpdated()
 			int maxItems = Settings::maxNewsItems();
 			foreach ( Syndication::ItemPtr item, feed->items())
 				{
-					int curFilter = -1;
 					bool matches = false;
+					bool hasFilter = false;
 					if (artFilters.count() > 0)
 					{
+						/**
+						 * Loop through the article filters
+						 */
 						for (int i = 0; i < artFilters.count(); ++i)
 						{
-							if(!artFilters[i].enabled())
+							if (!artFilters[i].enabled())
 								continue;
-							if(!artFilters[i].feedUrl().startsWith(feed->link())
-									&& artFilters[i].feedUrl() != i18n("All News Sources"))
+							/**
+							 * Determine if there's a filter for this feed url
+							 */
+							hasFilter = artFilters[i].feedUrl().startsWith(feed->link()) || artFilters[i].feedUrl() == i18n("All News Sources");
+							if (!hasFilter)
 								continue;
+
 							if (artFilters[i].matches(QString(item->title())))
 							{
 								matches = true;
-								curFilter = i;
 								break;
 							}
 						}
 
 					}
-					if (matches && curFilter != -1)
-						if(artFilters[curFilter].action() == i18n("Hide")) //the filter matched, don't add this item
-						continue;
-					++itemCnt;
+					/**
+					 * Only add item if there's no filter set for this feed or if the filter matches
+					 */
+					if (!hasFilter || !matches)
+					{
+						++itemCnt;
+						Item it(unescape(item->title()), item->link());
+						it.setIconId(iIdx);
+						m_items.push_back(it);
+					}
 					if (maxItems != 0 && itemCnt > maxItems)
 						break;
-					Item it(unescape(item->title()), item->link());
-					it.setIconId(iIdx);
-					m_items.push_back(it);
 				}
 
 		}

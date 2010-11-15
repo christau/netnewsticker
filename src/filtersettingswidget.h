@@ -108,6 +108,7 @@ Q_OBJECT
 public:
 	FilterSettingsWidget(QWidget *parent);
 	QStringList filterEntries() const;
+	void initNewsSources();
 
 private Q_SLOTS:
 private:
