@@ -615,92 +615,101 @@ void NetNewsTicker::feedsUpdated()
 	m_position = 0;
 	int iconIdx = 1;
 	QList<Syndication::FeedPtr> availableFeeds = NewsFeedManager::self()->availableFeeds().values();
-	foreach ( Syndication::FeedPtr feed, availableFeeds )
+	for (int i = 0; i < availableFeeds.count(); ++i)
+	{
+		Syndication::FeedPtr feed = availableFeeds.at(i);
+		int iIdx = 0;
+		const QString favIcon = KMimeType::favIconForUrl(feed->link());
+		if (!favIcon.isEmpty())
 		{
-			int iIdx = 0;
-			const QString favIcon = KMimeType::favIconForUrl(feed->link());
-			if (!favIcon.isEmpty())
-			{
-				QPixmap pm = SmallIcon(favIcon);
-				m_iconMap[iconIdx] = pm;
-				iIdx = iconIdx;
-				++iconIdx;
-			}
-			else
-			{
-				//download the icon
-				KTemporaryFile* tmpFile = new KTemporaryFile();
-				if (tmpFile->open())
-				{
-					QUrl l(feed->link());
-					QString url = "http://" + l.host() + "/favicon.ico";
-
-					KIO::Job* getJob = KIO::file_copy(url, KUrl(tmpFile->fileName()), -1, KIO::Overwrite
-							| KIO::HideProgressInfo);
-					getJob->ui()->setWindow(0);
-					if (KIO::NetAccess::synchronousRun(getJob, 0))
-					{
-						QPixmap p(tmpFile->fileName());
-						if (p.width() > 0)
-						{
-							iIdx = iconIdx;
-							m_iconMap[iIdx] = p;
-							++iconIdx;
-						}
-					}
-					else
-					{
-						iIdx = 0;
-					}
-				}
-				tmpFile->close();
-				delete tmpFile;
-			}
-			int itemCnt = 0;
-			int maxItems = Settings::maxNewsItems();
-			foreach ( Syndication::ItemPtr item, feed->items())
-				{
-					bool matches = false;
-					bool hasFilter = false;
-					if (artFilters.count() > 0)
-					{
-						/**
-						 * Loop through the article filters
-						 */
-						for (int i = 0; i < artFilters.count(); ++i)
-						{
-							if (!artFilters[i].enabled())
-								continue;
-							/**
-							 * Determine if there's a filter for this feed url
-							 */
-							hasFilter = artFilters[i].feedUrl().startsWith(feed->link()) || artFilters[i].feedUrl() == i18n("All News Sources");
-							if (!hasFilter)
-								continue;
-
-							if (artFilters[i].matches(QString(item->title())))
-							{
-								matches = true;
-								break;
-							}
-						}
-
-					}
-					/**
-					 * Only add item if there's no filter set for this feed or if the filter matches
-					 */
-					if (!hasFilter || !matches)
-					{
-						++itemCnt;
-						Item it(unescape(item->title()), item->link());
-						it.setIconId(iIdx);
-						m_items.push_back(it);
-					}
-					if (maxItems != 0 && itemCnt > maxItems)
-						break;
-				}
-
+			QPixmap pm = SmallIcon(favIcon);
+			m_iconMap[iconIdx] = pm;
+			iIdx = iconIdx;
+			++iconIdx;
 		}
+		else
+		{
+			//download the icon
+			KTemporaryFile* tmpFile = new KTemporaryFile();
+			if (tmpFile->open())
+			{
+				QUrl l(feed->link());
+				QString url = "http://" + l.host() + "/favicon.ico";
+
+				KIO::Job* getJob = KIO::file_copy(url, KUrl(tmpFile->fileName()), -1, KIO::Overwrite
+						| KIO::HideProgressInfo);
+				getJob->ui()->setWindow(0);
+				if (KIO::NetAccess::synchronousRun(getJob, 0))
+				{
+					QPixmap p(tmpFile->fileName());
+					if (p.width() > 0)
+					{
+						iIdx = iconIdx;
+						m_iconMap[iIdx] = p;
+						++iconIdx;
+					}
+				}
+				else
+				{
+					iIdx = 0;
+				}
+			}
+			tmpFile->close();
+			delete tmpFile;
+		}
+		int itemCnt = 0;
+		/**
+		 * Get max item count for this feed
+		 */
+		int maxItems = 10;//default
+		if(Settings::feedMaxItems().count() > i)
+		{
+			maxItems = Settings::feedMaxItems().at(i);
+		}
+		foreach ( Syndication::ItemPtr item, feed->items())
+			{
+				bool matches = false;
+				bool hasFilter = false;
+				if (artFilters.count() > 0)
+				{
+					/**
+					 * Loop through the article filters
+					 */
+					for (int i = 0; i < artFilters.count(); ++i)
+					{
+						if (!artFilters[i].enabled())
+							continue;
+						/**
+						 * Determine if there's a filter for this feed url
+						 */
+						hasFilter = artFilters[i].feedUrl().startsWith(feed->link()) || artFilters[i].feedUrl()
+								== i18n("All News Sources");
+						if (!hasFilter)
+							continue;
+
+						if (artFilters[i].matches(QString(item->title())))
+						{
+							matches = true;
+							break;
+						}
+					}
+
+				}
+				/**
+				 * Only add item if there's no filter set for this feed or if the filter matches
+				 */
+				if (!hasFilter || !matches)
+				{
+					++itemCnt;
+					Item it(unescape(item->title()), item->link());
+					it.setIconId(iIdx);
+					m_items.push_back(it);
+				}
+				if (maxItems != 0 && itemCnt > maxItems)
+					break;
+			}
+
+	}
 	m_iconWidth = 0;
 	m_height = 0;
 	m_feedsLoaded = true;

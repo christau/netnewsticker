@@ -42,13 +42,17 @@
             <label>List of URLs to RSS feeds which should be shown</label>
             <default>http://www.kde.org/dotkdeorg.rdf</default>
         </entry>
+        <entry name="FeedMaxItems" type="IntList">
+            <label>List of maximum displayed items per RSS feed</label>
+            <default></default>
+        </entry>
         <entry name="UpdateInterval" type="UInt">
             <label>The update interval (in minutes) defining how often the feeds are updated</label>
             <default>30</default>
         </entry>
         <entry name="MaxNewsItems" type="UInt">
             <label>Determines how much items are collected per feed. 0 means unlimited</label>
-            <default>30</default>
+            <default>10</default>
         </entry>
     </group>
     <group name="FilterProperties">

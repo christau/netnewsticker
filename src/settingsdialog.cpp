@@ -55,6 +55,7 @@ void SettingsDialog::applySettings() const
 {
 	Settings::setFilterEntries(m_filterSettingsWidget->filterEntries());
 	Settings::setFeedUrls(m_feedSettingsWidget->feedUrls());
+	Settings::setFeedMaxItems(m_feedSettingsWidget->feedMaxItems());
 	m_filterSettingsWidget->initNewsSources();
 }
 

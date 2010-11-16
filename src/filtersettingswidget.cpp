@@ -19,8 +19,14 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <syndication/item.h>
+#include <syndication/loader.h>
+
+
 #include "filtersettingswidget.h"
 #include "settings.h"
+#include "newsfeedmanager.h"
+
 
 ArticleFilter::ArticleFilter(const QString &action, const QString &condition, const QString &expression, bool enabled) :
 	m_action(action), m_condition(condition), m_expression(expression), m_enabled(enabled)
@@ -73,13 +79,13 @@ FilterSettingsWidget::FilterSettingsWidget(QWidget *parent) :
 	for (int i = 0; i < list.count(); ++i)
 	{
 		QStringList filter = list[i].split('|');
-		if(filter.count() != 5)
+		if (filter.count() != 5)
 		{
-//			printf("not reading filter entry:%s\n", list[i]);
+			//			printf("not reading filter entry:%s\n", list[i]);
 			continue;
 		}
 		ArticleFilter fd;
-		fd.setEnabled((filter.at(0) == "0")?false:true);
+		fd.setEnabled((filter.at(0) == "0") ? false : true);
 		fd.setAction(filter.at(1));
 		fd.setCondition(filter.at(2));
 		fd.setExpression(filter.at(3));
@@ -93,13 +99,13 @@ void FilterSettingsWidget::initNewsSources()
 {
 	ui.cboNewsSources->clear();
 	ui.cboNewsSources->addItem(i18n("All News Sources"));
-	QStringList feeds = Settings::feedUrls();
-	for (int i = 0; i < feeds.count(); ++i)
+	QList<Syndication::FeedPtr> availableFeeds = NewsFeedManager::self()->availableFeeds().values();
+	for (int i = 0; i < availableFeeds.count(); ++i)
 	{
-		ui.cboNewsSources->addItem(feeds[i]);
+		ui.cboNewsSources->addItem(availableFeeds[i]->link());
+
 	}
 }
-
 
 void FilterSettingsWidget::addFilter(const ArticleFilter &fd)
 {
@@ -196,14 +202,13 @@ void FilterSettingsWidget::slotFilterNewsSourceChanged(const QString &newsSource
 	}
 }
 
-
 QStringList FilterSettingsWidget::filterEntries() const
 {
 	QStringList filters;
 	for (int i = 0; i < ui.filterEntries->topLevelItemCount(); ++i)
 	{
 		QString filterString = "";
-		filterString += ui.filterEntries->topLevelItem(i)->checkState(0)?"1":"0";
+		filterString += ui.filterEntries->topLevelItem(i)->checkState(0) ? "1" : "0";
 		filterString += "|";
 		filterString += ui.filterEntries->topLevelItem(i)->text(0);
 		filterString += "|";
@@ -216,7 +221,6 @@ QStringList FilterSettingsWidget::filterEntries() const
 	}
 	return filters;
 }
-
 
 #include "../build/filtersettingswidget.moc"
 

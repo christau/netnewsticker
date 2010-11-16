@@ -31,16 +31,21 @@
 #include <QDomDocument>
 #include <QMessageBox>
 
-
 FeedSettingsWidget::FeedSettingsWidget(QWidget *parent) :
 	QWidget(parent), m_downloadMessageBox(0)
 {
 	ui.setupUi(this);
 	ui.feedListWidget->addItems(Settings::feedUrls());
+	for (int i = 0; i < Settings::feedMaxItems().count(); ++i)
+	{
+		if(i < ui.feedListWidget->count())
+			ui.feedListWidget->item(i)->setData(Qt::UserRole, Settings::feedMaxItems().at(i));
+	}
 	connect(ui.feedListWidget, SIGNAL( itemSelectionChanged() ), this, SLOT( feedItemChanged() ));
 	connect(ui.addButton, SIGNAL( clicked() ), this, SLOT( addButtonClicked() ));
 	connect(ui.removeButton, SIGNAL( clicked() ), this, SLOT( removeButtonClicked() ));
 	connect(ui.getFeedsButton, SIGNAL( clicked() ), this, SLOT( getFeedsButtonClicked() ));
+	connect(ui.spMaxItems, SIGNAL( valueChanged(int) ), this, SLOT( maxItemsChanged(int) ));
 
 	if (ui.feedListWidget->count() > 0)
 	{
@@ -60,6 +65,25 @@ QStringList FeedSettingsWidget::feedUrls() const
 		urls.append(ui.feedListWidget->item(i)->text());
 	}
 	return urls;
+}
+QList<int> FeedSettingsWidget::feedMaxItems() const
+{
+	QList<int> urls;
+	for (int i = 0; i < ui.feedListWidget->count(); ++i)
+	{
+		urls.append(ui.feedListWidget->item(i)->data(Qt::UserRole).toInt());
+	}
+	return urls;
+
+}
+
+void FeedSettingsWidget::maxItemsChanged(int val)
+{
+	/**
+	 * The max items property of the current selected feed changed
+	 */
+	QListWidgetItem *item = ui.feedListWidget->currentItem();
+	item->setData(Qt::UserRole, val);
 }
 
 void FeedSettingsWidget::feedItemChanged()
@@ -84,7 +108,7 @@ void FeedSettingsWidget::feedItemChanged()
 	ui.feedTitleLabel->setText(feed->title());
 	ui.feedUrlLabel->setText(feed->link());
 	ui.feedDescriptionLabel->setText(feed->description());
-
+	ui.spMaxItems->setValue(item->data(Qt::UserRole).toInt());
 }
 
 void FeedSettingsWidget::addButtonClicked()
@@ -100,7 +124,8 @@ void FeedSettingsWidget::addButtonClicked()
 		connect(NewsFeedManager::self(), SIGNAL( feedLoaded( const QUrl & ) ), this, SLOT( feedLoaded( const QUrl & ) ));
 
 		NewsFeedManager::self()->updateFeed(url);
-		m_downloadMessageBox = new KProgressDialog(this, i18n("Please wait..."), i18n("Please wait while the newsfeed is downloaded..."));
+		m_downloadMessageBox
+				= new KProgressDialog(this, i18n("Please wait..."), i18n("Please wait while the newsfeed is downloaded..."));
 		m_downloadMessageBox->progressBar()->setRange(0, 0);
 		m_downloadMessageBox->exec();
 	}
@@ -114,6 +139,7 @@ void FeedSettingsWidget::removeButtonClicked()
 	//    Settings::feedUrls().clear();
 	//    printf("bool:%d", Settings::feedUrls().size());
 	NewsFeedManager::self()->removeFeed(item->text());
+	Settings::feedMaxItems().removeAt(row);
 	delete item;
 	const int remainingItems = ui.feedListWidget->count();
 	if (remainingItems > 0)
@@ -151,22 +177,23 @@ void FeedSettingsWidget::feedDirectoryAccepted()
 		QTreeWidgetItem* item = fd->feedsTree->topLevelItem(i);
 		QString link = item->text(1);
 		bool checked = item->checkState(0);
-		if(subscribedFeeds.contains(link, Qt::CaseInsensitive))
+		if (subscribedFeeds.contains(link, Qt::CaseInsensitive))
 		{
-			if(!checked)
+			if (!checked)
 			{
 				subscribedFeeds.removeOne(link);
 				ui.feedListWidget->clear();
 				ui.feedListWidget->addItems(Settings::feedUrls());
 			}
 		}
-		else if(checked)
+		else if (checked)
 		{
 			m_addedFeedUrl = link;
 			connect(NewsFeedManager::self(), SIGNAL( feedLoaded( const QUrl & ) ), this, SLOT( feedLoaded( const QUrl & ) ));
 
 			NewsFeedManager::self()->updateFeed(link);
-			m_downloadMessageBox = new KProgressDialog(this, i18n("Please wait..."), i18n("Please wait while the newsfeed is downloaded..."));
+			m_downloadMessageBox
+					= new KProgressDialog(this, i18n("Please wait..."), i18n("Please wait while the newsfeed is downloaded..."));
 			m_downloadMessageBox->progressBar()->setRange(0, 0);
 			m_downloadMessageBox->exec();
 		}
@@ -235,6 +262,18 @@ void FeedSettingsWidget::feedLoaded(const QUrl &url)
 	QListWidgetItem *item = new QListWidgetItem(url.toString());
 	ui.feedListWidget->addItem(item);
 	ui.feedListWidget->setCurrentItem(item);
+	int row = ui.feedListWidget->currentRow();
+	if(Settings::feedMaxItems().count() < row)
+	{
+		int val = Settings::feedMaxItems().at(row);
+		ui.spMaxItems->setValue(val);
+		item->setData(Qt::UserRole, val);
+	}
+	else
+	{
+		ui.spMaxItems->setValue(10);
+		item->setData(Qt::UserRole, 10);
+	}
 }
 
 #include "../build/feedsettingswidget.moc"

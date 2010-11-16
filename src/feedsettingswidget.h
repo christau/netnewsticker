@@ -38,6 +38,7 @@ public:
 	FeedSettingsWidget(QWidget *parent);
 
 	QStringList feedUrls() const;
+	QList<int> feedMaxItems() const;
 
 private Q_SLOTS:
 	void feedItemChanged();
@@ -47,6 +48,7 @@ private Q_SLOTS:
 	void feedLoaded(const QUrl &url);
 	void replyFinished(QNetworkReply* reply);
 	void feedDirectoryAccepted();
+	void maxItemsChanged(int val);
 private:
 	Ui::FeedSettings ui;
 	Ui::FeedDirectory *fd;
