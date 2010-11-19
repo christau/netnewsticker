@@ -63,12 +63,12 @@ public:
 		m_expression = expression;
 	}
 
-	void setFeedUrl(const QString &url)
+	void setFeedTitle(const QString &url)
 	{
 		m_url = url;
 	}
 
-	QString feedUrl() const
+	QString feedTitle() const
 	{
 		return m_url;
 	}

@@ -89,7 +89,7 @@ FilterSettingsWidget::FilterSettingsWidget(QWidget *parent) :
 		fd.setAction(filter.at(1));
 		fd.setCondition(filter.at(2));
 		fd.setExpression(filter.at(3));
-		fd.setFeedUrl(filter.at(4));
+		fd.setFeedTitle(filter.at(4));
 		addFilter(fd);
 
 	}
@@ -99,10 +99,11 @@ void FilterSettingsWidget::initNewsSources()
 {
 	ui.cboNewsSources->clear();
 	ui.cboNewsSources->addItem(i18n("All News Sources"));
-	QList<Syndication::FeedPtr> availableFeeds = NewsFeedManager::self()->availableFeeds().values();
+	QList<QUrl> availableFeeds = NewsFeedManager::self()->availableFeeds().keys();
+	const QMap<QUrl, Syndication::FeedPtr> feeds = NewsFeedManager::self()->availableFeeds();
 	for (int i = 0; i < availableFeeds.count(); ++i)
 	{
-		ui.cboNewsSources->addItem(availableFeeds[i]->link());
+		ui.cboNewsSources->addItem(feeds[availableFeeds[i]]->title());
 
 	}
 }
@@ -115,7 +116,7 @@ void FilterSettingsWidget::addFilter(const ArticleFilter &fd)
 	item->setText(0, fd.action());
 	item->setText(1, fd.condition());
 	item->setText(2, fd.expression());
-	item->setText(3, fd.feedUrl());
+	item->setText(3, fd.feedTitle());
 }
 
 void FilterSettingsWidget::slotAddFilter()
@@ -124,7 +125,7 @@ void FilterSettingsWidget::slotAddFilter()
 	fd.setAction(ui.comboFilterAction->currentText());
 	fd.setCondition(ui.comboFilterCondition->currentText());
 	fd.setExpression(ui.leFilterExpression->text());
-	fd.setFeedUrl(ui.cboNewsSources->currentText());
+	fd.setFeedTitle(ui.cboNewsSources->currentText());
 	fd.setEnabled(true);
 	addFilter(fd);
 }

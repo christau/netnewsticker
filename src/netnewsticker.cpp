@@ -36,6 +36,7 @@
 #include <QMessageBox>
 
 #include <syndication/item.h>
+#include <syndication/image.h>
 #include <syndication/loader.h>
 #include <kiconloader.h>
 #include <kmimetype.h>
@@ -145,6 +146,12 @@ void NetNewsTicker::feedLoaded(const QUrl &url)
 	QStringList urls = Settings::feedUrls();
 	urls.append(url.toString());
 	Settings::setFeedUrls(urls);
+	QList<int> maxItems = Settings::feedMaxItems();
+	if(maxItems.count() < urls.count())
+	{
+		maxItems.append(10);
+	}
+	Settings::setFeedMaxItems(maxItems),
 	disconnect(NewsFeedManager::self(), SIGNAL( feedLoaded( const QUrl & ) ), this, SLOT( feedLoaded( const QUrl & ) ));
 	Settings::self()->writeConfig();
 	updateFeeds();
@@ -152,8 +159,6 @@ void NetNewsTicker::feedLoaded(const QUrl &url)
 
 void NetNewsTicker::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
 {
-	//	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-
 	if (Settings::uIStyle())
 	{
 		p->fillRect(contentsRect, QColor::fromRgb(222, 222, 222));
@@ -386,6 +391,9 @@ void NetNewsTicker::settingsAccepted()
 {
 	m_settingsDialog->applySettings();
 	Settings::self()->writeConfig();
+	m_settingsDialog->close();
+	delete m_settingsDialog;
+	m_settingsDialog = 0;
 }
 
 void NetNewsTicker::settingsChanged(const QString& str)
@@ -597,8 +605,7 @@ void NetNewsTicker::feedsUpdated()
 		QStringList filter = filters[i].split('|');
 		if (filter.count() != 5)
 		{
-			kDebug()
-				<< QString("not reading filter entry:") << filters.at(i);
+			qDebug() << QString("not reading filter entry:") << filters.at(i);
 			continue;
 		}
 		ArticleFilter fd;
@@ -606,7 +613,7 @@ void NetNewsTicker::feedsUpdated()
 		fd.setAction(filter.at(1));
 		fd.setCondition(filter.at(2));
 		fd.setExpression(filter.at(3));
-		fd.setFeedUrl(filter.at(4));
+		fd.setFeedTitle(filter.at(4));
 		artFilters.append(fd);
 	}
 	m_items.clear();
@@ -614,10 +621,13 @@ void NetNewsTicker::feedsUpdated()
 	m_doInitWidth = true;
 	m_position = 0;
 	int iconIdx = 1;
+	QList<QUrl> avFeeds = NewsFeedManager::self()->availableFeeds().keys();
+
 	QList<Syndication::FeedPtr> availableFeeds = NewsFeedManager::self()->availableFeeds().values();
-	for (int i = 0; i < availableFeeds.count(); ++i)
+	for (int feedPos = 0; feedPos < availableFeeds.count(); ++feedPos)
 	{
-		Syndication::FeedPtr feed = availableFeeds.at(i);
+		QString currentFeedUrl = avFeeds.at(feedPos).toString();
+		Syndication::FeedPtr feed = availableFeeds.at(feedPos);
 		int iIdx = 0;
 		const QString favIcon = KMimeType::favIconForUrl(feed->link());
 		if (!favIcon.isEmpty())
@@ -635,7 +645,6 @@ void NetNewsTicker::feedsUpdated()
 			{
 				QUrl l(feed->link());
 				QString url = "http://" + l.host() + "/favicon.ico";
-
 				KIO::Job* getJob = KIO::file_copy(url, KUrl(tmpFile->fileName()), -1, KIO::Overwrite
 						| KIO::HideProgressInfo);
 				getJob->ui()->setWindow(0);
@@ -662,9 +671,22 @@ void NetNewsTicker::feedsUpdated()
 		 * Get max item count for this feed
 		 */
 		int maxItems = 10;//default
-		if(Settings::feedMaxItems().count() > i)
+		int pos = -1;
+		/**
+		 * find the correct feed position, since they are not the same order in NewsFeedManager
+		 */
+		for (int i = 0; i < Settings::feedUrls().count(); ++i)
 		{
-			maxItems = Settings::feedMaxItems().at(i);
+			if(Settings::feedUrls().at(i) == currentFeedUrl)
+			{
+				pos = i;
+				break;
+			}
+		}
+
+		if(Settings::feedMaxItems().count() > feedPos)
+		{
+			maxItems = Settings::feedMaxItems().at(pos);
 		}
 		foreach ( Syndication::ItemPtr item, feed->items())
 			{
@@ -680,10 +702,9 @@ void NetNewsTicker::feedsUpdated()
 						if (!artFilters[i].enabled())
 							continue;
 						/**
-						 * Determine if there's a filter for this feed url
+						 * Determine if there's a filter for this feed
 						 */
-						hasFilter = artFilters[i].feedUrl().startsWith(feed->link()) || artFilters[i].feedUrl()
-								== i18n("All News Sources");
+						hasFilter = artFilters[i].feedTitle().startsWith(feed->title()) || artFilters[i].feedTitle() == i18n("All News Sources");
 						if (!hasFilter)
 							continue;
 
@@ -705,10 +726,9 @@ void NetNewsTicker::feedsUpdated()
 					it.setIconId(iIdx);
 					m_items.push_back(it);
 				}
-				if (maxItems != 0 && itemCnt > maxItems)
+				if (maxItems != 0 && itemCnt >= maxItems)
 					break;
 			}
-
 	}
 	m_iconWidth = 0;
 	m_height = 0;
