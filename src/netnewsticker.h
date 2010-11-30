@@ -93,6 +93,7 @@ private slots:
 	void updateFeeds();
 	void settingsChanged(const QString &);
 	void settingsAccepted();
+	void settingsRejected();
 //	void sizeChanged();
 };
 

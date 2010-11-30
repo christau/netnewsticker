@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Flickr On Plasma\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-17 22:11+0100\n"
-"PO-Revision-Date: 2010-11-17 00:20+0100\n"
+"PO-Revision-Date: 2010-11-26 23:04+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -24,45 +24,53 @@ msgstr "Neuer Feed"
 msgid "Enter the Address (URL) of the Newsfeed to be added:"
 msgstr "Bitte die URL des Feeds eingeben:"
 
-#: feedsettingswidget.cpp:128 feedsettingswidget.cpp:196
+#: feedsettingswidget.cpp:128
+#: feedsettingswidget.cpp:196
 msgid "Please wait..."
 msgstr "Bitte warten ..."
 
-#: feedsettingswidget.cpp:128 feedsettingswidget.cpp:196
+#: feedsettingswidget.cpp:128
+#: feedsettingswidget.cpp:196
 msgid "Please wait while the newsfeed is downloaded..."
 msgstr "Bitte warten während der Newsfeed geladen wird ..."
 
 #. i18n: file: filtersettings.ui:136
 #. i18n: ectx: property (text), item, widget (QComboBox, comboFilterCondition)
-#: filtersettingswidget.cpp:43 rc.cpp:86
+#: filtersettingswidget.cpp:43
+#: rc.cpp:86
 msgid "contain"
 msgstr "enthält"
 
 #. i18n: file: filtersettings.ui:141
 #. i18n: ectx: property (text), item, widget (QComboBox, comboFilterCondition)
-#: filtersettingswidget.cpp:45 rc.cpp:89
+#: filtersettingswidget.cpp:45
+#: rc.cpp:89
 msgid "do not contain"
-msgstr "enthält nicht"
+msgstr "nicht enthält"
 
 #. i18n: file: filtersettings.ui:146
 #. i18n: ectx: property (text), item, widget (QComboBox, comboFilterCondition)
-#: filtersettingswidget.cpp:47 rc.cpp:92
+#: filtersettingswidget.cpp:47
+#: rc.cpp:92
 msgid "equal"
-msgstr "gleich"
+msgstr "ist gleich"
 
 #. i18n: file: filtersettings.ui:151
 #. i18n: ectx: property (text), item, widget (QComboBox, comboFilterCondition)
-#: filtersettingswidget.cpp:49 rc.cpp:95
+#: filtersettingswidget.cpp:49
+#: rc.cpp:95
 msgid "do not equal"
-msgstr "ungleich"
+msgstr "ist ungleich"
 
 #. i18n: file: filtersettings.ui:106
 #. i18n: ectx: property (text), item, widget (QComboBox, comboFilterAction)
-#: filtersettingswidget.cpp:57 rc.cpp:69
+#: filtersettingswidget.cpp:57
+#: rc.cpp:69
 msgid "Show"
 msgstr "Zeige"
 
-#: filtersettingswidget.cpp:101 netnewsticker.cpp:685
+#: filtersettingswidget.cpp:101
+#: netnewsticker.cpp:685
 msgid "All News Sources"
 msgstr "Alle Nachrichtenquellen"
 
@@ -84,7 +92,8 @@ msgstr "Feeds"
 
 #. i18n: file: filtersettings.ui:88
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: settingsdialog.cpp:42 rc.cpp:57
+#: settingsdialog.cpp:42
+#: rc.cpp:57
 msgid "Filter Properties"
 msgstr "Filtereigenschaften"
 
@@ -205,9 +214,7 @@ msgstr ""
 #. i18n: file: filtersettings.ui:97
 #. i18n: ectx: property (whatsThis), widget (QComboBox, comboFilterAction)
 #: rc.cpp:63
-msgid ""
-"Here you can define what should happen if this filter matches (e.g. whether "
-"the matching articles should be shown or hidden)."
+msgid "Here you can define what should happen if this filter matches (e.g. whether the matching articles should be shown or hidden)."
 msgstr ""
 
 #. i18n: file: filtersettings.ui:101
@@ -220,7 +227,7 @@ msgstr "Verstecke"
 #. i18n: ectx: property (text), widget (QLabel, lArticles)
 #: rc.cpp:72
 msgid "articles whose headlines"
-msgstr ""
+msgstr "Artikel, deren Schlagzeile"
 
 #. i18n: file: filtersettings.ui:124
 #. i18n: ectx: property (toolTip), widget (QComboBox, comboFilterCondition)
@@ -232,18 +239,12 @@ msgstr ""
 #. i18n: ectx: property (whatsThis), widget (QComboBox, comboFilterCondition)
 #: rc.cpp:78
 msgid ""
-"This combo box lets you specify the condition under which the keyword/"
-"expression you entered in the input field at the right will match. You can "
-"select one of the following values:<ul>\n"
+"This combo box lets you specify the condition under which the keyword/expression you entered in the input field at the right will match. You can select one of the following values:<ul>\n"
 "<li>contain - the filter matches if the headline contains the keyword.</li>\n"
-"<li>does not contain - the filter matches if the headline does not contain "
-"the keyword.</li>\n"
+"<li>does not contain - the filter matches if the headline does not contain the keyword.</li>\n"
 "<li>equals - the filter matches if the headline equals the expression.</li>\n"
-"<li>does not equal - the filter matches if the headline does not equal the "
-"expression.</li>\n"
-"<li>matches - the filter matches if the expression matches the headline. The "
-"expression you typed at the right will be considered a regular expression in "
-"this mode.</li>"
+"<li>does not equal - the filter matches if the headline does not equal the expression.</li>\n"
+"<li>matches - the filter matches if the expression matches the headline. The expression you typed at the right will be considered a regular expression in this mode.</li>"
 msgstr ""
 
 #. i18n: file: filtersettings.ui:156
@@ -321,9 +322,7 @@ msgstr ""
 #. i18n: file: settings.kcfg:32
 #. i18n: ectx: label, entry (MessageDelay), group (Visual)
 #: rc.cpp:134
-msgid ""
-"How many seconds the message is displayed when horizontal scrolling is "
-"enabled"
+msgid "How many seconds the message is displayed when horizontal scrolling is enabled"
 msgstr ""
 
 #. i18n: file: settings.kcfg:36
@@ -347,17 +346,14 @@ msgstr ""
 #. i18n: file: settings.kcfg:50
 #. i18n: ectx: label, entry (UpdateInterval), group (FeedLoading)
 #: rc.cpp:146
-msgid ""
-"The update interval (in minutes) defining how often the feeds are updated"
+msgid "The update interval (in minutes) defining how often the feeds are updated"
 msgstr "Bestimmt, in welchen Abständen die Feeds aktualisiert werden"
 
 #. i18n: file: settings.kcfg:54
 #. i18n: ectx: label, entry (MaxNewsItems), group (FeedLoading)
 #: rc.cpp:149
 msgid "Determines how much items are collected per feed. 0 means unlimited"
-msgstr ""
-"Die maximale Anzahl von Einträgen, die pro Feed im NetNewsTicker angezeigt "
-"werden"
+msgstr "Die maximale Anzahl von Einträgen, die pro Feed im NetNewsTicker angezeigt werden"
 
 #. i18n: file: settings.kcfg:60
 #. i18n: ectx: label, entry (FilterEntries), group (FilterProperties)
@@ -432,13 +428,10 @@ msgstr ""
 
 #~ msgid "Max Items per Feed:"
 #~ msgstr "Maximum von Einträgen pro Feed:"
-
 #~ msgid "Items"
 #~ msgstr "Einträge"
-
 #~ msgid "Delay between messages"
 #~ msgstr "Pause bei vertikalem Scrolling"
-
 #~ msgid "Seconds"
 #~ msgstr "Sekunden"
 
@@ -465,3 +458,4 @@ msgstr ""
 #, fuzzy
 #~ msgid "Scrolling text font"
 #~ msgstr "Geschwindigkeit:"
+

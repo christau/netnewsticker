@@ -384,6 +384,7 @@ void NetNewsTicker::showConfigurationInterface()
 		m_settingsDialog = new SettingsDialog;
 		connect(m_settingsDialog, SIGNAL( settingsChanged( const QString & ) ), this, SLOT( settingsChanged( const QString & ) ));
 		connect(m_settingsDialog, SIGNAL( accepted() ), this, SLOT( settingsAccepted() ));
+		connect(m_settingsDialog, SIGNAL( rejected() ), this, SLOT( settingsRejected() ));
 	}
 	m_settingsDialog->show();
 }
@@ -391,6 +392,13 @@ void NetNewsTicker::settingsAccepted()
 {
 	m_settingsDialog->applySettings();
 	Settings::self()->writeConfig();
+	m_settingsDialog->close();
+	delete m_settingsDialog;
+	m_settingsDialog = 0;
+}
+
+void NetNewsTicker::settingsRejected()
+{
 	m_settingsDialog->close();
 	delete m_settingsDialog;
 	m_settingsDialog = 0;

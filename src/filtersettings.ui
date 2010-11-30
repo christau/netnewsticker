@@ -47,19 +47,6 @@
        </property>
       </spacer>
      </item>
-     <item row="3" column="1">
-      <widget class="QPushButton" name="bAddFilter">
-       <property name="toolTip">
-        <string>Add configured filter</string>
-       </property>
-       <property name="whatsThis">
-        <string>Press this button to add the configured filter to the list.</string>
-       </property>
-       <property name="text">
-        <string>A&amp;dd</string>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="2">
       <widget class="QPushButton" name="bRemoveFilter">
        <property name="enabled">
@@ -72,7 +59,7 @@
         <string>Press this button to remove the selected filter from the list.</string>
        </property>
        <property name="text">
-        <string>R&amp;emove</string>
+        <string>&amp;Remove</string>
        </property>
       </widget>
      </item>
@@ -199,6 +186,19 @@
          <string>Affects</string>
         </property>
        </column>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QPushButton" name="bAddFilter">
+       <property name="toolTip">
+        <string>Add configured filter</string>
+       </property>
+       <property name="whatsThis">
+        <string>Press this button to add the configured filter to the list.</string>
+       </property>
+       <property name="text">
+        <string>&amp;Add</string>
+       </property>
       </widget>
      </item>
     </layout>
